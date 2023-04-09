@@ -47,32 +47,38 @@ const DailyDataSchema = new Schema({
 );
 
 const KPISchema = new Schema({
-    totalProfit: {
-        type: mongoose.Types.Currency,
-        currency: "USD",
-        get: (v) => (v / 100).toFixed(2),
-    },
-    totalRevenue: {
-        type: mongoose.Types.Currency,
-        currency: "USD",
-        get: (v) => (v / 100).toFixed(2),
-    },
-    totalExpenses: {
-        type: mongoose.Types.Currency,
-        currency: "USD",
-        get: (v) => (v / 100).toFixed(2),
-    },
-    expensesByCategory: {
-        type: Map,
-        of: {
+        totalProfit: {
             type: mongoose.Types.Currency,
             currency: "USD",
             get: (v) => (v / 100).toFixed(2),
-        }
+        },
+        totalRevenue: {
+            type: mongoose.Types.Currency,
+            currency: "USD",
+            get: (v) => (v / 100).toFixed(2),
+        },
+        totalExpenses: {
+            type: mongoose.Types.Currency,
+            currency: "USD",
+            get: (v) => (v / 100).toFixed(2),
+        },
+        expensesByCategory: {
+            type: Map,
+            of: {
+                type: mongoose.Types.Currency,
+                currency: "USD",
+                get: (v) => (v / 100).toFixed(2),
+            }
+        },
+        monthlyData: [MonthlyDataSchema],
+        dailyData: [DailyDataSchema],
     },
-    monthlyData: [MonthlyDataSchema],
-    dailyData: [DailyDataSchema],
-});
+
+    {
+        timestamps: true,
+        toJSON: {getters: true}
+    }
+);
 
 const KPI = mongoose.model("KPI", KPISchema);
 
